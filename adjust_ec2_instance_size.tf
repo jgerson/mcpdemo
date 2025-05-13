@@ -1,1 +1,31 @@
-cHJvdmlkZXIgImF3cyIgewogIHJlZ2lvbiA9ICJ1cy1lYXN0LTEiIC8vIFNwZWNpZnkgeW91ciBBV1MgcmVnaW9uCn0KCiMgRGF0YSBzb3VyY2UgdG8gZmV0Y2ggaW5zdGFuY2UgZGV0YWlscwpkYXRhICJhd3NfaW5zdGFuY2UiICJqZXJlbXl0ZXN0MSIgewogIGZpbHRlciB7CiAgICBuYW1lICA9ICJ0YWc6TmFtZSIKICAgIHZhbHVlcyA9IFsiamVyZW15dGVzdDEiXQogIH0KfQoKZGF0YSAiYXdzX2luc3RhbmNlIiAiamVyZW15dGVzdDIiIHsKICBmaWx0ZXIgewogICAgbmFtZSAgPSAidGFnOk5hbWUiCiAgICB2YWx1ZXMgPSBbImplcmVteXRlc3QyIl0KICB9Cn0KCiMgUmVzb3VyY2UgdG8gYWRqdXN0IGluc3RhbmNlIHR5cGUKcmVzb3VyY2UgImF3c19pbnN0YW5jZSIgImplcmVteTEiIHsKICBpbnN0YW5jZV9pZCAgPSBkYXRhLmF3c19pbnN0YW5jZS5qZXJlbXl0ZXN0MS5pZAogIGluc3RhbmNlX3R5cGUgPSAidDIubWljcm8iCiAgLy8gQWRkIGFueSBvdGhlciBuZWNlc3NhcnkgY29uZmlndXJhdGlvbnMgKGUuZy4sIGtleV9uYW1lLCBzZWN1cml0eV9ncm91cHMpCn0KCnJlc291cmNlICJhd3NfaW5zdGFuY2UiICJqZXJlbXkyIiB7CiAgaW5zdGFuY2VfaWQgID0gZGF0YS5hd3NfaW5zdGFuY2UuamVyZW15dGVzdDIuaWQKICBpbnN0YW5jZV90eXBlID0gInQyLm1pY3JvIgogIC8vIEFkZCBhbnkgb3RoZXIgbmVjZXNzYXJ5IGNvbmZpZ3VyYXRpb25zCn0K
+provider "aws" {
+  region = "us-east-1" // Specify your AWS region
+}
+
+# Data source to fetch instance details
+data "aws_instance" "jeremytest1" {
+  filter {
+    name   = "tag:Name"
+    values = ["jeremytest1"]
+  }
+}
+
+data "aws_instance" "jeremytest2" {
+  filter {
+    name   = "tag:Name"
+    values = ["jeremytest2"]
+  }
+}
+
+# Resource to adjust instance type
+resource "aws_instance" "jeremy1" {
+  instance_id = data.aws_instance.jeremytest1.id
+  instance_type = "t2.micro"
+  # Add any other necessary configurations (e.g., key_name, security_groups)
+}
+
+resource "aws_instance" "jeremy2" {
+  instance_id = data.aws_instance.jeremytest2.id
+  instance_type = "t2.micro"
+  # Add any other necessary configurations
+}
